@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
 @endsection
 
-@section('styles')
+@section('content')
   <div class="container">
     <div class="row">
       <div class="col col-md-offset-3 col-md-6">
