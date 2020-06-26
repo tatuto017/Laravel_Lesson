@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Folder;
 use App\Task;
 use Illuminate\Http\Request;
-use App\Http\Requests\TasksRequest;
+use App\Http\Requests\FolderRequest;
 use App\Http\Requests\CreateTask;
 
 class TaskController extends Controller {
-    public function index(TasksRequest $request) {
+    public function index(FolderRequest $request) {
         $current_folder = Folder::find($request->id);
 
         return view('tasks/index', [
@@ -19,11 +19,11 @@ class TaskController extends Controller {
         ]);
     }
 
-    public function showCreateForm(TasksRequest $request) {
+    public function showCreateForm(FolderRequest $request) {
         return view('tasks/create', [ 'folder_id' => $request->id ]);
     }
 
-    public function create(TasksRequest $urlReqest, CreateTask $fromRequest) {
+    public function create(FolderRequest $urlReqest, CreateTask $fromRequest) {
         $current_folder = Folder::find($urlReqest->id);
 
         $task = new Task();

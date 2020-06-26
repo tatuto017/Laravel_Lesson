@@ -4,8 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TasksRequest extends FormRequest
-{
+class FolderRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -23,7 +22,6 @@ class TasksRequest extends FormRequest
     public function rules() {
         return [
             'id' => 'exists:folders,id',
-            //
         ];
     }
 
