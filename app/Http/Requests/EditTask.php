@@ -16,7 +16,7 @@ class EditTask extends CreateTask {
         $rule = parent::rules();
         $status_rule = Rule::in(array_keys(Task::STATUS));
 
-        return [
+        return $rule + [
             'status' => 'required|' . $status_rule
         ];
     }
