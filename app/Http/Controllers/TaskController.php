@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Folder;
 use App\Task;
 use Illuminate\Http\Request;
-use App\Http\Requests\TasksRequest;
+use App\Http\Requests\FolderRequest;
 use App\Http\Requests\CreateTask;
+use App\Http\Requests\TaskRequest;
+use App\Http\Requests\EditTask;
+
 
 class TaskController extends Controller {
-    public function index(TasksRequest $request) {
+    public function index(FolderRequest $request) {
         $current_folder = Folder::find($request->id);
 
         return view('tasks/index', [
@@ -19,11 +22,11 @@ class TaskController extends Controller {
         ]);
     }
 
-    public function showCreateForm(TasksRequest $request) {
+    public function showCreateForm(FolderRequest $request) {
         return view('tasks/create', [ 'folder_id' => $request->id ]);
     }
 
-    public function create(TasksRequest $urlReqest, CreateTask $fromRequest) {
+    public function create(FolderRequest $urlReqest, CreateTask $fromRequest) {
         $current_folder = Folder::find($urlReqest->id);
 
         $task = new Task();
@@ -33,5 +36,20 @@ class TaskController extends Controller {
         $current_folder->tasks()->save($task);
 
         return redirect()->route('tasks.index', [ 'id' => $current_folder->id ]);
+    }
+
+    public function showEditForm(TaskRequest $request) {
+        return view('tasks/edit', [ 'task' => Task::find($request->task_id) ]);
+    }
+
+    public function edit(TaskRequest $urlRequest, EditTask $formRequest) {
+        $task = Task::find($urlRequest->task_id);
+
+        $task->title    = $formRequest->title;
+        $task->status   = $formRequest->status;
+        $task->due_date = $formRequest->due_date;
+        $task->save();
+
+        return redirect()->route('tasks.index', [ 'id' => $task->folder_id ]);
     }
 }
